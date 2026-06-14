@@ -1,14 +1,9 @@
-import type { MouseEventHandler } from "react";
+import type { TButton } from "../../types";
 
-export type TButton = {
-    text: string;
-    onClick: MouseEventHandler<HTMLButtonElement>;
-
-}
-export default function Button({text, onClick}: TButton) {
+export default function Button({text, onClick, className}: TButton) {
    return(
     <>
-    <button onClick={onClick}>{text}</button>
+    <button onClick={onClick} className={className}>{text}</button>
     </>
    ); 
 }
