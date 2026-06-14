@@ -1,7 +1,7 @@
 export default function Input() {
     return (
     <>
-    <input type="text" />
+    <input type="text" placeholder="Type here" className="input" />
     </>
     );
 }
