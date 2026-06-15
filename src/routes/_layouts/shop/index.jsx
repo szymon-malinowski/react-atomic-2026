@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ProductCard from "../../../components/organisms/product.card";
 
-export const Route = createFileRoute("/shop/")({
+export const Route = createFileRoute("/_layouts/shop/")({
   component: RouteComponent,
 });
 
