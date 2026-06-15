@@ -9,26 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ImpressumRouteImport } from './routes/impressum'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicImpressumRouteImport } from './routes/_public/impressum'
+import { Route as PublicAboutRouteImport } from './routes/_public/about'
 import { Route as LayoutsShopIndexRouteImport } from './routes/_layouts/shop/index'
 import { Route as LayoutsShopShopRouteImport } from './routes/_layouts/shop/shop'
 import { Route as LayoutsShopProductIdRouteImport } from './routes/_layouts/shop/$productId'
 
-const ImpressumRoute = ImpressumRouteImport.update({
-  id: '/impressum',
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/_public/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicImpressumRoute = PublicImpressumRouteImport.update({
+  id: '/_public/impressum',
   path: '/impressum',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
+const PublicAboutRoute = PublicAboutRouteImport.update({
+  id: '/_public/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LayoutsShopIndexRoute = LayoutsShopIndexRouteImport.update({
@@ -48,26 +48,26 @@ const LayoutsShopProductIdRoute = LayoutsShopProductIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/impressum': typeof ImpressumRoute
+  '/about': typeof PublicAboutRoute
+  '/impressum': typeof PublicImpressumRoute
+  '/': typeof PublicIndexRoute
   '/shop/$productId': typeof LayoutsShopProductIdRoute
   '/shop/shop': typeof LayoutsShopShopRoute
   '/shop/': typeof LayoutsShopIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/impressum': typeof ImpressumRoute
+  '/about': typeof PublicAboutRoute
+  '/impressum': typeof PublicImpressumRoute
+  '/': typeof PublicIndexRoute
   '/shop/$productId': typeof LayoutsShopProductIdRoute
   '/shop/shop': typeof LayoutsShopShopRoute
   '/shop': typeof LayoutsShopIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/impressum': typeof ImpressumRoute
+  '/_public/about': typeof PublicAboutRoute
+  '/_public/impressum': typeof PublicImpressumRoute
+  '/_public/': typeof PublicIndexRoute
   '/_layouts/shop/$productId': typeof LayoutsShopProductIdRoute
   '/_layouts/shop/shop': typeof LayoutsShopShopRoute
   '/_layouts/shop/': typeof LayoutsShopIndexRoute
@@ -75,34 +75,34 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/about'
     | '/impressum'
+    | '/'
     | '/shop/$productId'
     | '/shop/shop'
     | '/shop/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/about'
     | '/impressum'
+    | '/'
     | '/shop/$productId'
     | '/shop/shop'
     | '/shop'
   id:
     | '__root__'
-    | '/'
-    | '/about'
-    | '/impressum'
+    | '/_public/about'
+    | '/_public/impressum'
+    | '/_public/'
     | '/_layouts/shop/$productId'
     | '/_layouts/shop/shop'
     | '/_layouts/shop/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  ImpressumRoute: typeof ImpressumRoute
+  PublicAboutRoute: typeof PublicAboutRoute
+  PublicImpressumRoute: typeof PublicImpressumRoute
+  PublicIndexRoute: typeof PublicIndexRoute
   LayoutsShopProductIdRoute: typeof LayoutsShopProductIdRoute
   LayoutsShopShopRoute: typeof LayoutsShopShopRoute
   LayoutsShopIndexRoute: typeof LayoutsShopIndexRoute
@@ -110,25 +110,25 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/impressum': {
-      id: '/impressum'
-      path: '/impressum'
-      fullPath: '/impressum'
-      preLoaderRoute: typeof ImpressumRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/_public/': {
+      id: '/_public/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/impressum': {
+      id: '/_public/impressum'
+      path: '/impressum'
+      fullPath: '/impressum'
+      preLoaderRoute: typeof PublicImpressumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/about': {
+      id: '/_public/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PublicAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_layouts/shop/': {
@@ -156,9 +156,9 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  ImpressumRoute: ImpressumRoute,
+  PublicAboutRoute: PublicAboutRoute,
+  PublicImpressumRoute: PublicImpressumRoute,
+  PublicIndexRoute: PublicIndexRoute,
   LayoutsShopProductIdRoute: LayoutsShopProductIdRoute,
   LayoutsShopShopRoute: LayoutsShopShopRoute,
   LayoutsShopIndexRoute: LayoutsShopIndexRoute,
