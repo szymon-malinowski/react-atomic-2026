@@ -9,5 +9,4 @@ export type TButton = {
 export type TCard = {
     title: string;
     description: string;
-    text: string;
 };

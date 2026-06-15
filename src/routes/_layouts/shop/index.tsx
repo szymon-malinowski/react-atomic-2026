@@ -8,7 +8,9 @@ export const Route = createFileRoute("/_layouts/shop/")({
 function RouteComponent() {
   return (
     <>
-      <ProductCard title="Nike" />
+      <ProductCard title="Nike" description={"Das ist ein Schuh."} />
+      <ProductCard title="Adiddas" description={"Das ist ein Schuh."} />
+      <ProductCard title="Rebook" description={"Das ist ein Schuh."} />
     </>
   );
 }

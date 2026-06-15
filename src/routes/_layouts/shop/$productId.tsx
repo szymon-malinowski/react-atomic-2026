@@ -6,5 +6,5 @@ export const Route = createFileRoute("/_layouts/shop/$productId")({
 
 function RouteComponent() {
   const { productId } = Route.useParams();
-  return <div>Hello "/products/$productId"!</div>;
+  return <div>Hello {productId}</div>;
 }
