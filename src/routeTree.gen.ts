@@ -9,18 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProductsRouteImport } from './routes/products'
+import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as DashboardLayoutRouteImport } from './routes/dashboard/layout'
-import { Route as DashboardIdRouteImport } from './routes/dashboard/$id'
-import { Route as DashboardDetailIdRouteImport } from './routes/dashboard/detail.$id'
+import { Route as ShopIndexRouteImport } from './routes/shop/index'
+import { Route as ShopProductIdRouteImport } from './routes/shop/$productId'
 
-const ProductsRoute = ProductsRouteImport.update({
-  id: '/products',
-  path: '/products',
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImpressumRoute = ImpressumRouteImport.update({
@@ -38,57 +36,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
+const ShopIndexRoute = ShopIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShopRoute,
 } as any)
-const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
-  id: '/dashboard/layout',
-  path: '/dashboard/layout',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardIdRoute = DashboardIdRouteImport.update({
-  id: '/dashboard/$id',
-  path: '/dashboard/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardDetailIdRoute = DashboardDetailIdRouteImport.update({
-  id: '/dashboard/detail/$id',
-  path: '/dashboard/detail/$id',
-  getParentRoute: () => rootRouteImport,
+const ShopProductIdRoute = ShopProductIdRouteImport.update({
+  id: '/$productId',
+  path: '/$productId',
+  getParentRoute: () => ShopRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/impressum': typeof ImpressumRoute
-  '/products': typeof ProductsRoute
-  '/dashboard/$id': typeof DashboardIdRoute
-  '/dashboard/layout': typeof DashboardLayoutRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/detail/$id': typeof DashboardDetailIdRoute
+  '/shop': typeof ShopRouteWithChildren
+  '/shop/$productId': typeof ShopProductIdRoute
+  '/shop/': typeof ShopIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/impressum': typeof ImpressumRoute
-  '/products': typeof ProductsRoute
-  '/dashboard/$id': typeof DashboardIdRoute
-  '/dashboard/layout': typeof DashboardLayoutRoute
-  '/dashboard': typeof DashboardIndexRoute
-  '/dashboard/detail/$id': typeof DashboardDetailIdRoute
+  '/shop/$productId': typeof ShopProductIdRoute
+  '/shop': typeof ShopIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/impressum': typeof ImpressumRoute
-  '/products': typeof ProductsRoute
-  '/dashboard/$id': typeof DashboardIdRoute
-  '/dashboard/layout': typeof DashboardLayoutRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/detail/$id': typeof DashboardDetailIdRoute
+  '/shop': typeof ShopRouteWithChildren
+  '/shop/$productId': typeof ShopProductIdRoute
+  '/shop/': typeof ShopIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,51 +77,35 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/impressum'
-    | '/products'
-    | '/dashboard/$id'
-    | '/dashboard/layout'
-    | '/dashboard/'
-    | '/dashboard/detail/$id'
+    | '/shop'
+    | '/shop/$productId'
+    | '/shop/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/impressum'
-    | '/products'
-    | '/dashboard/$id'
-    | '/dashboard/layout'
-    | '/dashboard'
-    | '/dashboard/detail/$id'
+  to: '/' | '/about' | '/impressum' | '/shop/$productId' | '/shop'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/impressum'
-    | '/products'
-    | '/dashboard/$id'
-    | '/dashboard/layout'
-    | '/dashboard/'
-    | '/dashboard/detail/$id'
+    | '/shop'
+    | '/shop/$productId'
+    | '/shop/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ImpressumRoute: typeof ImpressumRoute
-  ProductsRoute: typeof ProductsRoute
-  DashboardIdRoute: typeof DashboardIdRoute
-  DashboardLayoutRoute: typeof DashboardLayoutRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
-  DashboardDetailIdRoute: typeof DashboardDetailIdRoute
+  ShopRoute: typeof ShopRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/products': {
-      id: '/products'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof ProductsRouteImport
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/impressum': {
@@ -164,46 +129,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
+    '/shop/': {
+      id: '/shop/'
+      path: '/'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof ShopRoute
     }
-    '/dashboard/layout': {
-      id: '/dashboard/layout'
-      path: '/dashboard/layout'
-      fullPath: '/dashboard/layout'
-      preLoaderRoute: typeof DashboardLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/$id': {
-      id: '/dashboard/$id'
-      path: '/dashboard/$id'
-      fullPath: '/dashboard/$id'
-      preLoaderRoute: typeof DashboardIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/detail/$id': {
-      id: '/dashboard/detail/$id'
-      path: '/dashboard/detail/$id'
-      fullPath: '/dashboard/detail/$id'
-      preLoaderRoute: typeof DashboardDetailIdRouteImport
-      parentRoute: typeof rootRouteImport
+    '/shop/$productId': {
+      id: '/shop/$productId'
+      path: '/$productId'
+      fullPath: '/shop/$productId'
+      preLoaderRoute: typeof ShopProductIdRouteImport
+      parentRoute: typeof ShopRoute
     }
   }
 }
+
+interface ShopRouteChildren {
+  ShopProductIdRoute: typeof ShopProductIdRoute
+  ShopIndexRoute: typeof ShopIndexRoute
+}
+
+const ShopRouteChildren: ShopRouteChildren = {
+  ShopProductIdRoute: ShopProductIdRoute,
+  ShopIndexRoute: ShopIndexRoute,
+}
+
+const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ImpressumRoute: ImpressumRoute,
-  ProductsRoute: ProductsRoute,
-  DashboardIdRoute: DashboardIdRoute,
-  DashboardLayoutRoute: DashboardLayoutRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
-  DashboardDetailIdRoute: DashboardDetailIdRoute,
+  ShopRoute: ShopRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
