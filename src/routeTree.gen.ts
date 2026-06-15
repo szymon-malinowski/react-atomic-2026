@@ -13,8 +13,8 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ShopIndexRouteImport } from './routes/shop/index'
-import { Route as ShopProductIdRouteImport } from './routes/shop/$productId'
+import { Route as ShopIndexRouteImport } from './routes/_layouts/shop/index'
+import { Route as ShopProductIdRouteImport } from './routes/_layouts/shop/$productId'
 
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
