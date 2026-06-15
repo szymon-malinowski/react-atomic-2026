@@ -1,7 +1,7 @@
 import type { TCard } from "../../types";
 import ButtonDefault from "../atoms/buttons/button.default";
 
-export default function ProductCard({ title, description, text }: TCard) {
+export default function ProductCard({ title, description }: TCard) {
   return (
     <>
       <div className="card bg-base-100 w-96 shadow-sm">
