@@ -9,159 +9,188 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ShopRouteRouteImport } from './routes/shop/route'
+import { Route as PublicRouteRouteImport } from './routes/_public/route'
+import { Route as ShopIndexRouteImport } from './routes/shop/index'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicImpressumRouteImport } from './routes/_public/impressum'
 import { Route as PublicAboutRouteImport } from './routes/_public/about'
-import { Route as LayoutsShopIndexRouteImport } from './routes/_layouts/shop/index'
-import { Route as LayoutsShopShopRouteImport } from './routes/_layouts/shop/shop'
-import { Route as LayoutsShopProductIdRouteImport } from './routes/_layouts/shop/$productId'
+import { Route as ShopProductIdSplatRouteImport } from './routes/shop/product.id.$'
 
-const PublicIndexRoute = PublicIndexRouteImport.update({
-  id: '/_public/',
-  path: '/',
+const ShopRouteRoute = ShopRouteRouteImport.update({
+  id: '/shop',
+  path: '/shop',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopIndexRoute = ShopIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShopRouteRoute,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicImpressumRoute = PublicImpressumRouteImport.update({
-  id: '/_public/impressum',
+  id: '/impressum',
   path: '/impressum',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicAboutRoute = PublicAboutRouteImport.update({
-  id: '/_public/about',
+  id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicRouteRoute,
 } as any)
-const LayoutsShopIndexRoute = LayoutsShopIndexRouteImport.update({
-  id: '/_layouts/shop/',
-  path: '/shop/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LayoutsShopShopRoute = LayoutsShopShopRouteImport.update({
-  id: '/_layouts/shop/shop',
-  path: '/shop/shop',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LayoutsShopProductIdRoute = LayoutsShopProductIdRouteImport.update({
-  id: '/_layouts/shop/$productId',
-  path: '/shop/$productId',
-  getParentRoute: () => rootRouteImport,
+const ShopProductIdSplatRoute = ShopProductIdSplatRouteImport.update({
+  id: '/product/id/$',
+  path: '/product/id/$',
+  getParentRoute: () => ShopRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof PublicIndexRoute
+  '/shop': typeof ShopRouteRouteWithChildren
   '/about': typeof PublicAboutRoute
   '/impressum': typeof PublicImpressumRoute
-  '/': typeof PublicIndexRoute
-  '/shop/$productId': typeof LayoutsShopProductIdRoute
-  '/shop/shop': typeof LayoutsShopShopRoute
-  '/shop/': typeof LayoutsShopIndexRoute
+  '/shop/': typeof ShopIndexRoute
+  '/shop/product/id/$': typeof ShopProductIdSplatRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof PublicAboutRoute
   '/impressum': typeof PublicImpressumRoute
   '/': typeof PublicIndexRoute
-  '/shop/$productId': typeof LayoutsShopProductIdRoute
-  '/shop/shop': typeof LayoutsShopShopRoute
-  '/shop': typeof LayoutsShopIndexRoute
+  '/shop': typeof ShopIndexRoute
+  '/shop/product/id/$': typeof ShopProductIdSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_public': typeof PublicRouteRouteWithChildren
+  '/shop': typeof ShopRouteRouteWithChildren
   '/_public/about': typeof PublicAboutRoute
   '/_public/impressum': typeof PublicImpressumRoute
   '/_public/': typeof PublicIndexRoute
-  '/_layouts/shop/$productId': typeof LayoutsShopProductIdRoute
-  '/_layouts/shop/shop': typeof LayoutsShopShopRoute
-  '/_layouts/shop/': typeof LayoutsShopIndexRoute
+  '/shop/': typeof ShopIndexRoute
+  '/shop/product/id/$': typeof ShopProductIdSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/about'
-    | '/impressum'
     | '/'
-    | '/shop/$productId'
-    | '/shop/shop'
-    | '/shop/'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/about'
-    | '/impressum'
-    | '/'
-    | '/shop/$productId'
-    | '/shop/shop'
     | '/shop'
+    | '/about'
+    | '/impressum'
+    | '/shop/'
+    | '/shop/product/id/$'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/about' | '/impressum' | '/' | '/shop' | '/shop/product/id/$'
   id:
     | '__root__'
+    | '/_public'
+    | '/shop'
     | '/_public/about'
     | '/_public/impressum'
     | '/_public/'
-    | '/_layouts/shop/$productId'
-    | '/_layouts/shop/shop'
-    | '/_layouts/shop/'
+    | '/shop/'
+    | '/shop/product/id/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  PublicAboutRoute: typeof PublicAboutRoute
-  PublicImpressumRoute: typeof PublicImpressumRoute
-  PublicIndexRoute: typeof PublicIndexRoute
-  LayoutsShopProductIdRoute: typeof LayoutsShopProductIdRoute
-  LayoutsShopShopRoute: typeof LayoutsShopShopRoute
-  LayoutsShopIndexRoute: typeof LayoutsShopIndexRoute
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
+  ShopRouteRoute: typeof ShopRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop/': {
+      id: '/shop/'
+      path: '/'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof ShopRouteRoute
+    }
     '/_public/': {
       id: '/_public/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof PublicIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/_public/impressum': {
       id: '/_public/impressum'
       path: '/impressum'
       fullPath: '/impressum'
       preLoaderRoute: typeof PublicImpressumRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/_public/about': {
       id: '/_public/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof PublicAboutRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
-    '/_layouts/shop/': {
-      id: '/_layouts/shop/'
-      path: '/shop'
-      fullPath: '/shop/'
-      preLoaderRoute: typeof LayoutsShopIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_layouts/shop/shop': {
-      id: '/_layouts/shop/shop'
-      path: '/shop/shop'
-      fullPath: '/shop/shop'
-      preLoaderRoute: typeof LayoutsShopShopRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_layouts/shop/$productId': {
-      id: '/_layouts/shop/$productId'
-      path: '/shop/$productId'
-      fullPath: '/shop/$productId'
-      preLoaderRoute: typeof LayoutsShopProductIdRouteImport
-      parentRoute: typeof rootRouteImport
+    '/shop/product/id/$': {
+      id: '/shop/product/id/$'
+      path: '/product/id/$'
+      fullPath: '/shop/product/id/$'
+      preLoaderRoute: typeof ShopProductIdSplatRouteImport
+      parentRoute: typeof ShopRouteRoute
     }
   }
 }
 
-const rootRouteChildren: RootRouteChildren = {
+interface PublicRouteRouteChildren {
+  PublicAboutRoute: typeof PublicAboutRoute
+  PublicImpressumRoute: typeof PublicImpressumRoute
+  PublicIndexRoute: typeof PublicIndexRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicAboutRoute: PublicAboutRoute,
   PublicImpressumRoute: PublicImpressumRoute,
   PublicIndexRoute: PublicIndexRoute,
-  LayoutsShopProductIdRoute: LayoutsShopProductIdRoute,
-  LayoutsShopShopRoute: LayoutsShopShopRoute,
-  LayoutsShopIndexRoute: LayoutsShopIndexRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
+interface ShopRouteRouteChildren {
+  ShopIndexRoute: typeof ShopIndexRoute
+  ShopProductIdSplatRoute: typeof ShopProductIdSplatRoute
+}
+
+const ShopRouteRouteChildren: ShopRouteRouteChildren = {
+  ShopIndexRoute: ShopIndexRoute,
+  ShopProductIdSplatRoute: ShopProductIdSplatRoute,
+}
+
+const ShopRouteRouteWithChildren = ShopRouteRoute._addFileChildren(
+  ShopRouteRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  PublicRouteRoute: PublicRouteRouteWithChildren,
+  ShopRouteRoute: ShopRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

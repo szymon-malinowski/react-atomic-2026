@@ -1,12 +1,20 @@
+import { StrictMode } from "react";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 
-function App() {
-  
+import { routeTree } from "./routeTree.gen";
 
-  return (
-    <>
-    
-    </>
-  )
+const router = createRouter({ routeTree });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
 }
 
-export default App
+export default function App() {
+  return (
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  );
+}
